@@ -63,7 +63,7 @@ export  default  function Create() {
   const [status, setStatus] = React.useState(false);
   const [alert, setAlert] = React.useState(true);
 
-  const [patientrecord, setPatientrecord] = React.useState<EntPatientrecord[]>([]);
+  const [p, setPatientrecord] = React.useState<EntPatientrecord[]>([]);
   const [prename, setPrename] = React.useState<EntPrename[]>([]);
   const [gender, setGender] = React.useState<EntGender[]>([]);
   const [medicalrecordstaff, setMedicalrecordstaff] = React.useState<EntMedicalrecordstaff[]>([]);
@@ -104,11 +104,13 @@ export  default  function Create() {
         console.log(res);
     };
     getMedicalrecordstaff();
-    }, [loading]);
     const getPatientrecord = async () => {
-        const res = await api.listPatientrecord({ limit: 10, offset: 0 });
-        setPatientrecord(res);
-      };
+      const res = await api.listPatientrecord({ limit: 20, offset: 0 });
+      setPatientrecord(res);
+    };
+    getPatientrecord();
+    }, [loading]);
+
     //handle
     const PrenamehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setprenameId(event.target.value as number);
@@ -406,7 +408,7 @@ export  default  function Create() {
          </TableRow>
        </TableHead>
        <TableBody>
-         {patientrecord.map(item => (
+         {p.map(item => (
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
              <TableCell align="center">{item.edges?.prename?.prefix}</TableCell>
@@ -414,11 +416,13 @@ export  default  function Create() {
              <TableCell align="center">{item.edges?.gender?.genderstatus}</TableCell>
              <TableCell align="center">{item.idcardnumber}</TableCell>
              <TableCell align="center">{item.age}</TableCell>
+             <TableCell align="center">{item.birthday}</TableCell>
              <TableCell align="center">{item.bloodtype}</TableCell>
              <TableCell align="center">{item.disease}</TableCell>
              <TableCell align="center">{item.allergic}</TableCell>
              <TableCell align="center">{item.phonenumber}</TableCell>
              <TableCell align="center">{item.email}</TableCell>
+             <TableCell align="center">{item.home}</TableCell>
              <TableCell align="center">{item.date}</TableCell>
             <TableCell align = "center">{item.edges?.medicalrecordstaff?.name}</TableCell>
            </TableRow>
